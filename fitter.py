@@ -52,8 +52,13 @@ def hubble(x,h0):
 
 #Step 5:
 def SSR(x,y,h0):
-    return 0
-
+    SSR=0
+    for i in range(len(x)):
+        z=hubble(x,h0)
+        resid = x[i]-y[i]
+        square = resid**2
+        SSR = square + SSR
+    return SSR
 
 #
 #  Step 2: Get data, plot it
@@ -72,8 +77,8 @@ plotFit(x,y,z,'badFit.png')
 
 #
 #  Step 6: Find SSR for poor fit from example function
-#
-
+h0=10
+print SSR(x,y,h0)
 
 #
 #   list for possible slopes. 
@@ -83,10 +88,17 @@ h0s=np.arange(0.,100.,0.1)
 
 #
 #  Step 7: Find slope and intercept that minimize
-#              the RSS
+#              the SSR
 #
+
 best_h0 = 0.
 min_ssr = np.inf
+for h0 in h0s:
+    p=SSR
+    if SSR < min_ssr:
+        best_h0=h0
+        min_ssr=p
+print best_h0
 
 #
 #   Step 8: Plot Result
